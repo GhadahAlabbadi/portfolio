@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block loader %}
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <span class="loader-logo">&lt;Ghadah/&gt;</span>
+      <span class="loader-count" id="loaderCount">0</span>
+    </div>
+  </div>
+{% endblock %}
+
+{% block content %}
+  <section class="hero" id="top">
+    <canvas id="stars" aria-hidden="true"></canvas>
+    <div class="hero-grid-bg" aria-hidden="true"></div>
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero-inner">
+      <div class="hero-text">
+        <span class="eyebrow">{{ c.hero.eyebrow }}</span>
+        <h1 class="hero-name">
+          <span class="line"><span>{{ c.hero.first }}</span></span>
+          <span class="line"><span>{{ c.hero.last }}</span></span>
+        </h1>
+        <p class="role"><span aria-hidden="true">&gt; </span><span class="typed" id="typed">{{ c.hero.roles.0 }}</span><span class="caret" aria-hidden="true"></span></p>
+        <p class="hero-intro">{{ c.hero.intro }}</p>
+        <div class="actions">
+          <a class="btn btn-primary" href="#projects">{{ c.hero.projects_btn }}</a>
+          {% if cv_path %}<a class="btn btn-ghost" href="{% static cv_path %}" download>{{ c.hero.cv_btn }}</a>{% endif %}
+        </div>
+        <div class="socials">
+          <a href="{{ p.github }}" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 .5A11.5 11.5 0 0 0 .5 12a11.5 11.5 0 0 0 7.86 10.92c.58.1.79-.25.79-.56v-2c-3.2.7-3.88-1.37-3.88-1.37-.53-1.33-1.28-1.69-1.28-1.69-1.04-.71.08-.7.08-.7 1.16.08 1.77 1.19 1.77 1.19 1.03 1.76 2.7 1.25 3.36.96.1-.75.4-1.25.73-1.54-2.55-.29-5.24-1.28-5.24-5.68 0-1.26.45-2.28 1.19-3.09-.12-.29-.52-1.46.11-3.05 0 0 .97-.31 3.17 1.18a10.9 10.9 0 0 1 5.77 0c2.2-1.49 3.17-1.18 3.17-1.18.63 1.59.23 2.76.11 3.05.74.81 1.19 1.83 1.19 3.09 0 4.41-2.69 5.38-5.25 5.67.41.36.78 1.06.78 2.14v3.17c0 .31.21.67.8.56A11.5 11.5 0 0 0 23.5 12 11.5 11.5 0 0 0 12 .5Z"/></svg></a>
+          <a href="{{ p.linkedin }}" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.02-3.04-1.85-3.04-1.85 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.37-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28ZM5.34 7.43a2.06 2.06 0 1 1 0-4.13 2.06 2.06 0 0 1 0 4.13ZM7.12 20.45H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.73v20.54C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.73V1.73C24 .77 23.2 0 22.22 0Z"/></svg></a>
+          <a href="mailto:{{ p.email }}" aria-label="{{ c.contact.email }}"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M2 5.5A2.5 2.5 0 0 1 4.5 3h15A2.5 2.5 0 0 1 22 5.5v13a2.5 2.5 0 0 1-2.5 2.5h-15A2.5 2.5 0 0 1 2 18.5v-13Zm2.3-.5L12 11.1 19.7 5H4.3ZM20 6.9l-7.38 5.85a1 1 0 0 1-1.24 0L4 6.9V18.5c0 .28.22.5.5.5h15a.5.5 0 0 0 .5-.5V6.9Z"/></svg></a>
+        </div>
+      </div>
+
+      <div class="code-wrap">
+        <div class="code-card" aria-hidden="true">
+          <div class="code-bar"><i></i><i></i><i></i><span>ghadah.py</span></div>
+<pre class="code"><code><span class="ln"><span class="kw">class</span> <span class="fn">Developer</span>:</span><span class="ln">    name = <span class="str">"Ghadah Alabbadi"</span></span><span class="ln">    stack = [<span class="str">"Python"</span>, <span class="str">"Django"</span>, <span class="str">"Flutter"</span>]</span><span class="ln">    based_in = <span class="str">"Riyadh"</span></span><span class="ln">    speaks = [<span class="str">"Arabic"</span>, <span class="str">"English"</span>]</span><span class="ln"> </span><span class="ln">    <span class="kw">def</span> <span class="fn">build</span>(self, idea):</span><span class="ln">        <span class="cm"># accessible, bilingual, tested</span></span><span class="ln">        <span class="kw">return</span> <span class="fn">Product</span>(idea)<span class="code-caret"></span></span></code></pre>
+        </div>
+        <div class="badge-float"><span class="badge-icon">{{ c.hero.badge_icon }}</span><div><b>{{ c.hero.badge_title }}</b><small>{{ c.hero.badge_sub }}</small></div></div>
+      </div>
+    </div>
+    <div class="scroll-hint mono" aria-hidden="true">{{ c.hero.scroll }}<span></span></div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      {% for word in c.marquee %}<span>{{ word }}</span>{% endfor %}
+      {% for word in c.marquee %}<span>{{ word }}</span>{% endfor %}
+    </div>
+  </div>
+
+  <section class="section" id="about">
+    <div class="wrap about-grid">
+      <div>
+        <span class="eyebrow">{{ c.about.eyebrow }}</span>
+        <p class="statement" id="statement" style="margin-top:1.4rem">{{ c.about.before }}<span class="hl">{{ c.about.highlight }}</span>{{ c.about.after }}</p>
+      </div>
+      <figure class="orbit-wrap">
+        <div class="orbit" aria-hidden="true">
+          <div class="ring ring-outer">
+            {% for name in orbit_outer %}<div class="planet" style="--a:{% widthratio forloop.counter0 orbit_outer|length 360 %}deg"><span class="moon"><span class="chip">{{ name }}</span></span></div>{% endfor %}
+          </div>
+          <div class="ring ring-inner">
+            {% for name in orbit_inner %}<div class="planet" style="--a:{% widthratio forloop.counter0 orbit_inner|length 360 %}deg"><span class="moon"><span class="chip">{{ name }}</span></span></div>{% endfor %}
+          </div>
+          <span class="spark s1"></span><span class="spark s2"></span><span class="spark s3"></span>
+          <div class="orbit-core"><span>&lt;G/&gt;</span></div>
+        </div>
+        <figcaption class="orbit-caption">{{ c.about.orbit_caption }}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="section" id="projects" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 class="section-title">{{ c.projects.title_before }}<em>{{ c.projects.title_em }}</em>{{ c.projects.title_after }}</h2>
+        <span class="count-label">({{ c.projects.items|length|stringformat:"02d" }})</span>
+      </div>
+      <div class="stack">
+        {% for item in projects %}
+        <article class="card" style="--i:{{ forloop.counter0 }}">
+          <div class="card-copy">
+            <span class="card-num">{{ forloop.counter|stringformat:"02d" }}.</span>
+            <span class="card-tag">{{ item.tag }}</span>
+            <h3 class="card-title">{{ item.name }}</h3>
+            <p class="card-text">{{ item.text }}</p>
+            <ul class="chips">{% for chip in item.chips %}<li>{{ chip }}</li>{% endfor %}</ul>
+            {% if item.link %}<a class="card-link" href="{{ item.link }}" target="_blank" rel="noopener">{{ item.link_label }} <span class="arrow" aria-hidden="true">↗</span></a>{% endif %}
+          </div>
+          <div class="card-media poster">
+            <button class="poster-btn" type="button" data-full="{% static item.poster %}" aria-label="{{ item.enlarge }}">
+              <img src="{% static item.poster %}" alt="{{ item.alt }}" loading="lazy" decoding="async">
+            </button>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="journey" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><h2 class="section-title">{{ c.journey.title_before }}<em>{{ c.journey.title_em }}</em></h2></div>
+      <div class="tabs" role="tablist" aria-label="{{ c.journey.title_before }}{{ c.journey.title_em }}">
+        <button class="tab" type="button" role="tab" id="tab-exp" aria-controls="p-exp" aria-selected="true">{{ c.journey.tabs.0 }}</button>
+        <button class="tab" type="button" role="tab" id="tab-edu" aria-controls="p-edu" aria-selected="false" tabindex="-1">{{ c.journey.tabs.1 }}</button>
+        <button class="tab" type="button" role="tab" id="tab-tech" aria-controls="p-tech" aria-selected="false" tabindex="-1">{{ c.journey.tabs.2 }}</button>
+      </div>
+
+      <div class="panel" id="p-exp" role="tabpanel" aria-labelledby="tab-exp">
+        <div class="timeline">
+          {% for e in c.journey.experience %}
+          <div class="tl-item"><span class="tl-date">{{ e.date }}</span><div><h3>{{ e.title }}</h3><p class="tl-place">{{ e.place }}</p><p>{{ e.text }}</p></div></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="panel" id="p-edu" role="tabpanel" aria-labelledby="tab-edu" hidden>
+        <div class="timeline">
+          {% for e in c.journey.education %}
+          <div class="tl-item"><span class="tl-date">{{ e.date }}</span><div><h3>{{ e.title }}</h3><p class="tl-place">{{ e.place }}</p><p>{{ e.text }}</p></div></div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="panel" id="p-tech" role="tabpanel" aria-labelledby="tab-tech" hidden>
+        <div class="tech-grid">
+          {% for t in c.tech %}
+          <div class="tech"><span class="tech-ico" style="background:{{ t.color }}" aria-hidden="true">{{ t.short }}</span><div><b>{{ t.name }}</b></div><small>{{ t.kind }}</small></div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="certificates" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head"><h2 class="section-title">{{ c.certs.title_before }}<em>{{ c.certs.title_em }}</em>{{ c.certs.title_after }}</h2></div>
+      <h3 class="list-label first">{{ c.certs.certs_label }}</h3>
+      <div class="courses">
+        {% for x in c.certs.certs %}
+        <a class="course" href="{{ x.url }}" target="_blank" rel="noopener"><span><b>{{ x.name }}</b><small>{{ x.by }}</small></span><span>{% if x.date %}<span>{{ x.date }}</span> {% endif %}<span class="arrow" aria-hidden="true">↗</span></span></a>
+        {% endfor %}
+      </div>
+      <h3 class="list-label">{{ c.certs.courses_label }}</h3>
+      <div class="courses">
+        {% for x in c.certs.courses %}
+        <a class="course" href="{{ x.url }}" target="_blank" rel="noopener"><span><b>{{ x.name }}</b><small>{{ x.by }}</small></span><span>{% if x.date %}<span>{{ x.date }}</span> {% endif %}<span class="arrow" aria-hidden="true">↗</span></span></a>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="contact" style="padding-top:0">
+    <div class="wrap contact-grid">
+      <div class="contact-copy">
+        <span class="eyebrow">{{ c.contact.eyebrow }}</span>
+        <h2 class="section-title" style="margin-top:1.2rem">{{ c.contact.title_before }}<em>{{ c.contact.title_em }}</em>{{ c.contact.title_after }}</h2>
+        <div class="contact-lines">
+          <div class="contact-line"><span>{{ c.contact.email }}</span><b id="emailText">{{ p.email }}</b><button class="copy" type="button" id="copyEmail">{{ c.contact.copy }}</button></div>
+          <div class="contact-line"><span>{{ c.contact.linkedin }}</span><b><a href="{{ p.linkedin }}" target="_blank" rel="noopener">{{ p.linkedin_handle }}</a></b></div>
+          <div class="contact-line"><span>{{ c.contact.location }}</span><b>{{ c.contact.location_value }}</b></div>
+        </div>
+      </div>
+      <form id="contactForm" novalidate>
+        <label for="f-name">{{ c.contact.name_label }}<input id="f-name" name="name" autocomplete="name" required placeholder="{{ c.contact.name_ph }}"></label>
+        <label for="f-email">{{ c.contact.email_label }}<input id="f-email" name="email" type="email" autocomplete="email" required placeholder="{{ c.contact.email_ph }}"></label>
+        <label for="f-msg">{{ c.contact.msg_label }}<textarea id="f-msg" name="message" required placeholder="{{ c.contact.msg_ph }}"></textarea></label>
+        <button class="btn btn-primary" type="submit" style="justify-self:start">{{ c.contact.send }}</button>
+        <p class="form-note" id="formNote" role="status" hidden>{{ c.contact.note }}</p>
+      </form>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox" hidden role="dialog" aria-modal="true" aria-label="{{ c.lightbox_label }}">
+    <button class="lightbox-close" type="button" id="lightboxClose" aria-label="{{ c.close }}">✕</button>
+    <img id="lightboxImg" alt="">
+  </div>
+{% endblock %}

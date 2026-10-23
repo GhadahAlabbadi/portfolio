@@ -1,0 +1,69 @@
+{% load static %}<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>{% block title %}{{ c.meta_title }}{% endblock %}</title>
+  <meta name="description" content="{{ c.meta_description }}">
+  <meta name="theme-color" content="#0a0913">
+  <meta property="og:title" content="{{ c.meta_title }}">
+  <meta property="og:description" content="{{ c.meta_description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/poster-emaa-expo.webp' %}">
+  <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/site.css' %}?v={{ v }}">
+</head>
+<body>
+  <a class="skip" href="#main">{{ c.skip }}</a>
+  {% block loader %}{% endblock %}
+  <div class="cursor" id="cursor" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="logo" href="{% url 'home' %}#top">&lt;Ghadah<span>/</span>&gt;</a>
+      <nav class="nav-links" aria-label="Sections">
+        {% for anchor, label in c.nav %}<a href="{% url 'home' %}#{{ anchor }}">{{ label }}</a>
+        {% endfor %}
+      </nav>
+      <div class="nav-right">
+        <span class="status"><i></i>{{ c.status }}</span>
+        <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="{{ c.menu_open }}" data-open-label="{{ c.menu_open }}" data-close-label="{{ c.menu_close }}"><span></span><span></span></button>
+      </div>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav class="mobile-links" aria-label="Sections">
+      {% for anchor, label in c.nav %}<a href="{% url 'home' %}#{{ anchor }}" style="--d:{{ forloop.counter0 }}"><small>0{{ forloop.counter }}</small>{{ label }}</a>
+      {% endfor %}
+    </nav>
+    <div class="mobile-foot">
+      <span class="status"><i></i>{{ c.status }}</span>
+      <div class="mobile-social">
+        <a href="{{ p.github }}" target="_blank" rel="noopener">GitHub</a>
+        <a href="{{ p.linkedin }}" target="_blank" rel="noopener">LinkedIn</a>
+        <a href="mailto:{{ p.email }}">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <div class="footer-ghost" aria-hidden="true">GHADAH</div>
+    <div class="wrap">
+      <p class="footer-big">{{ c.footer.before }}<em>{{ c.footer.em }}</em></p>
+      <div class="footer-row"><span>© {% now "Y" %} {{ c.footer.rights }}</span><span class="mono">{{ c.footer.built }}</span></div>
+    </div>
+  </footer>
+
+  {{ site_data|json_script:"site-data" }}
+  <script src="{% static 'js/site.js' %}?v={{ v }}" defer></script>
+</body>
+</html>
