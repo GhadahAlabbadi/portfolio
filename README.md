@@ -50,4 +50,4 @@ Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
 
 ## Credits
 
-Fonts from Google Fonts: Syne, Manrope and JetBrains Mono.
+Fonts from Google Fonts: Bricolage Grotesque, Manrope and JetBrains Mono.

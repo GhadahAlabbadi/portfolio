@@ -10,7 +10,7 @@
   --violet-soft: #c7b8ff;
   --mint: #6ee7b7;
 
-  --font-display: "Syne", "Arial Black", system-ui, sans-serif;
+  --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
   --font-body: "Manrope", "Segoe UI", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "Cascadia Code", monospace;
 
@@ -438,6 +438,16 @@ body.menu-open { overflow: hidden; }
 @media (max-width: 360px) {
   .orbit .chip { font-size: 0.56rem; padding: 0.22rem 0.42rem; }
 }
+
+/* ---------- Heading typeface: Bricolage Grotesque, narrow cut, set larger ---------- */
+.hero-name, .section-title, .card-title, .footer-big, .marquee-track span, .card-num, .lost-code, .footer-ghost, .loader-count, .mobile-links a { font-stretch: 80%; }
+.hero-name { font-size: clamp(2.4rem, 15cqi, 11rem); letter-spacing: -0.015em; line-height: 0.86; }
+.section-title { font-size: clamp(2rem, 7vw, 5.6rem); letter-spacing: -0.015em; line-height: 0.9; }
+.contact-copy .section-title { font-size: clamp(2rem, 12cqi, 6.4rem); }
+.lost .section-title { font-size: clamp(2.6rem, 9vw, 6.6rem); }
+.card-title { font-size: clamp(1.7rem, 9cqi, 4.4rem); letter-spacing: -0.01em; }
+.footer-big { font-size: clamp(3rem, 12vw, 9.5rem); letter-spacing: -0.015em; }
+.mobile-links a { font-size: clamp(1.6rem, 11cqi, 3.2rem); }
 
 /* ---------- Theme switch (both modes) ---------- */
 .theme-btn {
