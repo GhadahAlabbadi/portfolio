@@ -6,10 +6,16 @@
   <title>{% block title %}{{ c.meta_title }}{% endblock %}</title>
   <meta name="description" content="{{ c.meta_description }}">
   <meta name="theme-color" content="#0a0913">
+  {% block share_tags %}
   <meta property="og:title" content="{{ c.meta_title }}">
   <meta property="og:description" content="{{ c.meta_description }}">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/poster-emaa-expo.webp' %}">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-portfolio.jpg' %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta name="twitter:card" content="summary_large_image">
+  {% endblock %}
   <link rel="icon" href="{% static 'img/favicon.svg' %}" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>

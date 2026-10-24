@@ -1,3 +1,4 @@
+import json
 import os
 
 from django.contrib.staticfiles import finders
@@ -43,6 +44,19 @@ def home(request):
     # The Download CV button appears once the PDF is saved in static/files/.
     context["cv_path"] = CV_PATH if finders.find(CV_PATH) else None
     return render(request, "home.html", context)
+
+
+def emaa_expo(request):
+    """Share link for EMAA Expo: shows a proper preview card on LinkedIn, then opens the live demo."""
+    demo = PROFILE["emaa_demo"]
+    return render(request, "emaa_expo.html", {
+        "demo_url": demo,
+        "demo_url_json": json.dumps(demo),
+        "description": (
+            "Accessibility companion app for Deaf and non-speaking visitors of Expo 2030 Riyadh. "
+            "Top 12 out of 80+ projects and best project in the Smart Visitor Experience track."
+        ),
+    })
 
 
 def not_found(request, exception=None):

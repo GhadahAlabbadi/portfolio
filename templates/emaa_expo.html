@@ -1,0 +1,24 @@
+{% load static %}<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>EMAA Expo | Expo Hackathon 2026 winner</title>
+  <meta name="description" content="{{ description }}">
+  <meta property="og:title" content="EMAA Expo: Expo Hackathon 2026 winner">
+  <meta property="og:description" content="{{ description }}">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ request.path }}">
+  <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{% static 'img/og-emaa-expo.jpg' %}">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="627">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta http-equiv="refresh" content="0; url={{ demo_url }}">
+  <link rel="canonical" href="{{ demo_url }}">
+  <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#0a0913;color:#eeebf7;font-family:system-ui,sans-serif}a{color:#c7b8ff}</style>
+</head>
+<body>
+  <p>Opening the EMAA Expo live demo&hellip; <a href="{{ demo_url }}">Continue</a></p>
+  <script>window.location.replace({{ demo_url_json|safe }});</script>
+</body>
+</html>
