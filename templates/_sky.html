@@ -1,9 +1,27 @@
 <div class="sky" aria-hidden="true">
-  <div class="sun"><span class="sun-rays"></span><span class="sun-core"></span></div>
+  {# Natural noise turns soft white blobs into wispy clouds; each filter gives a different shape. #}
+  <svg class="sky-filters" width="0" height="0" focusable="false">
+    <filter id="cloud-big" x="-60%" y="-80%" width="220%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="5" seed="8"/>
+      <feDisplacementMap in="SourceGraphic" scale="120"/>
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="cloud-mid" x="-60%" y="-80%" width="220%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.016" numOctaves="5" seed="3"/>
+      <feDisplacementMap in="SourceGraphic" scale="80"/>
+      <feGaussianBlur stdDeviation="2.5"/>
+    </filter>
+    <filter id="cloud-small" x="-60%" y="-80%" width="220%" height="260%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.024" numOctaves="4" seed="11"/>
+      <feDisplacementMap in="SourceGraphic" scale="50"/>
+      <feGaussianBlur stdDeviation="2"/>
+    </filter>
+  </svg>
+  <div class="sun"><span class="sun-core"></span></div>
   {# Big clouds drift along the top and bottom of the sky; small, faint ones cross the middle behind the text. #}
-  <span class="cloud" style="--w:15rem; --y:5%; --x:8vw; --t:120s; --d:-20s"></span>
-  <span class="cloud" style="--w:19rem; --y:84%; --x:62vw; --t:150s; --d:-70s"></span>
-  <span class="cloud far" style="--w:7rem; --y:36%; --x:46vw; --t:170s; --d:-95s"></span>
-  <span class="cloud far" style="--w:8rem; --y:62%; --x:22vw; --t:190s; --d:-140s"></span>
-  <span class="cloud" style="--w:11rem; --y:18%; --x:88vw; --t:135s; --d:-100s"></span>
+  <span class="cloud" style="--w:17rem; --y:2%; --x:6vw; --t:150s; --d:-20s; --f:url(#cloud-big)"></span>
+  <span class="cloud" style="--w:21rem; --y:80%; --x:62vw; --t:190s; --d:-80s; --f:url(#cloud-big)"></span>
+  <span class="cloud far" style="--w:9rem; --y:36%; --x:46vw; --t:210s; --d:-95s; --f:url(#cloud-small)"></span>
+  <span class="cloud far" style="--w:10rem; --y:60%; --x:22vw; --t:230s; --d:-150s; --f:url(#cloud-small)"></span>
+  <span class="cloud" style="--w:13rem; --y:16%; --x:88vw; --t:170s; --d:-110s; --f:url(#cloud-mid)"></span>
 </div>
