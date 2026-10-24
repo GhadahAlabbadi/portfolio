@@ -57,6 +57,11 @@
     };
     var draw = function (time) {
       ctx.clearRect(0, 0, w, h);
+      // In light mode the sky replaces the stars; keep the loop alive but draw nothing.
+      if (document.documentElement.getAttribute("data-theme") === "light") {
+        if (!reduce) requestAnimationFrame(draw);
+        return;
+      }
       for (var i = 0; i < stars.length; i++) {
         var s = stars[i];
         if (!reduce) { s.y -= 0.06 * s.z; if (s.y < 0) s.y = h; }
@@ -71,10 +76,50 @@
     size();
     requestAnimationFrame(draw);
     window.addEventListener("resize", size);
+    // The canvas is hidden in light mode, so measure it again when the visitor switches back.
+    document.addEventListener("themechange", function () { size(); if (reduce) requestAnimationFrame(draw); });
     window.addEventListener("mousemove", function (e) {
       mx = e.clientX / window.innerWidth - 0.5;
       my = e.clientY / window.innerHeight - 0.5;
     });
+  }
+
+  // Light / dark switch. The choice is remembered; without one, the page follows the device setting.
+  var root = document.documentElement;
+  var themeBtn = document.getElementById("themeBtn");
+  var themeMeta = document.getElementById("themeColor");
+  var setTheme = function (t, save) {
+    root.setAttribute("data-theme", t);
+    if (themeMeta) themeMeta.setAttribute("content", t === "light" ? "#eaf5ff" : "#0a0913");
+    if (themeBtn) themeBtn.setAttribute("aria-label", t === "light" ? themeBtn.dataset.darkLabel : themeBtn.dataset.lightLabel);
+    if (save) { try { localStorage.setItem("theme", t); } catch (e) { /* Storage can be blocked. */ } }
+    document.dispatchEvent(new Event("themechange"));
+  };
+  if (themeBtn) {
+    setTheme(root.getAttribute("data-theme") === "light" ? "light" : "dark", false);
+    themeBtn.addEventListener("click", function () {
+      var next = root.getAttribute("data-theme") === "light" ? "dark" : "light";
+      if (!document.startViewTransition || reduce) { setTheme(next, true); return; }
+      var r = themeBtn.getBoundingClientRect();
+      var x = r.left + r.width / 2, y = r.top + r.height / 2;
+      var radius = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
+      var vt = document.startViewTransition(function () { setTheme(next, true); });
+      vt.ready.then(function () {
+        root.animate(
+          { clipPath: ["circle(0px at " + x + "px " + y + "px)", "circle(" + radius + "px at " + x + "px " + y + "px)"] },
+          { duration: 700, easing: "cubic-bezier(0.2, 0.8, 0.2, 1)", pseudoElement: "::view-transition-new(root)" }
+        );
+      }).catch(function () { /* The switch already happened. */ });
+    });
+  }
+  if (window.matchMedia) {
+    var mq = window.matchMedia("(prefers-color-scheme: light)");
+    var follow = function (e) {
+      var saved = null;
+      try { saved = localStorage.getItem("theme"); } catch (err) { /* ignore */ }
+      if (saved !== "light" && saved !== "dark") setTheme(e.matches ? "light" : "dark", false);
+    };
+    if (mq.addEventListener) mq.addEventListener("change", follow);
   }
 
   // Custom cursor, only once a mouse moves.

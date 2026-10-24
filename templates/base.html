@@ -5,7 +5,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>{% block title %}{{ c.meta_title }}{% endblock %}</title>
   <meta name="description" content="{{ c.meta_description }}">
-  <meta name="theme-color" content="#0a0913">
+  <meta name="theme-color" content="#0a0913" id="themeColor">
+  <script>
+    /* Pick the theme before the page paints: the visitor's saved choice, otherwise their device setting. */
+    (function () {
+      var t = null;
+      try { t = localStorage.getItem("theme"); } catch (e) {}
+      if (t !== "light" && t !== "dark") {
+        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
+      }
+      document.documentElement.setAttribute("data-theme", t);
+      document.getElementById("themeColor").setAttribute("content", t === "light" ? "#eaf5ff" : "#0a0913");
+    })();
+  </script>
   {% block share_tags %}
   <meta property="og:title" content="{{ c.meta_title }}">
   <meta property="og:description" content="{{ c.meta_description }}">
@@ -37,6 +49,10 @@
       </nav>
       <div class="nav-right">
         <span class="status"><i></i>{{ c.status }}</span>
+        <button class="theme-btn" type="button" id="themeBtn" aria-label="{{ c.theme_light }}" data-light-label="{{ c.theme_light }}" data-dark-label="{{ c.theme_dark }}">
+          <svg class="i-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M4.6 4.6l1.6 1.6M17.8 17.8l1.6 1.6M2.5 12h2.2M19.3 12h2.2M4.6 19.4l1.6-1.6M17.8 6.2l1.6-1.6"/></svg>
+          <svg class="i-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 14.6A8.5 8.5 0 0 1 9.4 3.5a8.5 8.5 0 1 0 11.1 11.1Z"/></svg>
+        </button>
         <button class="menu-btn" type="button" id="menuBtn" aria-expanded="false" aria-controls="mobileMenu" aria-label="{{ c.menu_open }}" data-open-label="{{ c.menu_open }}" data-close-label="{{ c.menu_close }}"><span></span><span></span></button>
       </div>
     </div>

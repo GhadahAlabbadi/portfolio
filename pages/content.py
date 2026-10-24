@@ -54,6 +54,8 @@ CONTENT = {
     "status": "Open to work",
     "menu_open": "Open menu",
     "menu_close": "Close menu",
+    "theme_light": "Switch to light mode",
+    "theme_dark": "Switch to dark mode",
     "hero": {
         "eyebrow": "Software developer, Riyadh",
         "first": "Ghadah",

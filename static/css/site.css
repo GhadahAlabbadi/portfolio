@@ -439,6 +439,145 @@ body.menu-open { overflow: hidden; }
   .orbit .chip { font-size: 0.56rem; padding: 0.22rem 0.42rem; }
 }
 
+/* ---------- Theme switch (both modes) ---------- */
+.theme-btn {
+  position: relative; display: grid; place-items: center; width: 2.6rem; height: 2.6rem; flex: none;
+  border-radius: 50%; border: 1px solid var(--line); background: rgba(255, 255, 255, 0.03); color: var(--text); cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s;
+}
+.theme-btn:hover { border-color: var(--violet); transform: rotate(-12deg); }
+.theme-btn svg { grid-area: 1 / 1; width: 1.15rem; height: 1.15rem; transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s; }
+.theme-btn .i-sun { fill: none; stroke: #ffd36b; stroke-width: 1.9; stroke-linecap: round; }
+.theme-btn .i-sun circle { fill: #ffd36b; stroke: none; }
+.theme-btn .i-moon { fill: var(--violet); opacity: 0; transform: rotate(-90deg) scale(0.4); }
+:root[data-theme="light"] .theme-btn .i-sun { opacity: 0; transform: rotate(90deg) scale(0.4); }
+:root[data-theme="light"] .theme-btn .i-moon { opacity: 1; transform: none; }
+/* The new theme opens as a circle from the switch (see site.js). */
+::view-transition-old(root), ::view-transition-new(root) { animation: none; mix-blend-mode: normal; }
+
+/* The sky only exists in light mode. */
+.sky { display: none; }
+
+/* ---------- Light mode: a sunny midday sky ---------- */
+:root[data-theme="light"] {
+  --night: #f5f9ff;
+  --panel: #ffffff;
+  --panel-2: #eef5ff;
+  --line: rgba(22, 46, 84, 0.12);
+  --text: #10203a;
+  --muted: #43577a;
+  --violet: #5a3fd6;
+  --violet-soft: #6243e0;
+  --mint: #0c8a5f;
+  --sun: #ffb81c;
+  --sky-shadow: rgba(38, 92, 168, 0.28);
+  color-scheme: light;
+}
+:root[data-theme="light"] body { background: var(--night); }
+
+/* Hero: sky, sun and drifting clouds instead of the starfield */
+:root[data-theme="light"] #stars,
+:root[data-theme="light"] .hero-grid-bg,
+:root[data-theme="light"] .hero-glow { display: none; }
+:root[data-theme="light"] .hero { background: linear-gradient(180deg, #6db7f0 0%, #9fd2fa 30%, #cfe9ff 62%, var(--night) 100%); }
+:root[data-theme="light"] .sky { display: block; position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.sun { position: absolute; top: clamp(1.5rem, 7vw, 4.5rem); right: clamp(1rem, 9vw, 9rem); width: clamp(6rem, 13vw, 10rem); aspect-ratio: 1; }
+.sun::before {
+  content: ""; position: absolute; inset: -140%; border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 236, 160, 0.85) 0%, rgba(255, 221, 120, 0.4) 22%, rgba(255, 255, 255, 0) 58%);
+}
+.sun-rays {
+  position: absolute; inset: -70%; border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg, rgba(255, 233, 150, 0.55) 0deg 4deg, rgba(255, 233, 150, 0) 4deg 18deg);
+  mask-image: radial-gradient(circle, transparent 30%, #000 36%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, transparent 30%, #000 36%, transparent 70%);
+  animation: spin 140s linear infinite;
+}
+.sun-core {
+  position: absolute; inset: 0; border-radius: 50%;
+  background: radial-gradient(circle at 38% 36%, #fffdf0 0%, #ffe48a 38%, #ffc23a 78%, #ffaa12 100%);
+  box-shadow: 0 0 0 10px rgba(255, 226, 130, 0.35), 0 0 60px 20px rgba(255, 210, 90, 0.55);
+}
+.cloud {
+  position: absolute; left: 0; top: var(--y); width: var(--w); height: calc(var(--w) * 0.3);
+  border-radius: 999px; background: #fff; translate: var(--x) 0;
+  box-shadow: inset 0 calc(var(--w) * -0.045) calc(var(--w) * 0.06) rgba(150, 192, 236, 0.45);
+  filter: drop-shadow(0 14px 18px rgba(48, 110, 186, 0.16));
+  animation: drift var(--t) linear infinite; animation-delay: var(--d);
+}
+.cloud::before, .cloud::after { content: ""; position: absolute; border-radius: 50%; background: #fff; }
+.cloud::before { width: 48%; height: 170%; left: 14%; bottom: 22%; }
+.cloud::after { width: 34%; height: 125%; left: 50%; bottom: 26%; }
+.lost .sun { display: none; } /* On the 404 page the "0" is the sun. */
+.cloud.far { opacity: 0.55; filter: blur(1px) drop-shadow(0 10px 12px rgba(48, 110, 186, 0.1)); }
+@keyframes drift { from { translate: -40vw 0; } to { translate: 115vw 0; } }
+
+/* Surfaces */
+:root[data-theme="light"] .nav { background: rgba(245, 249, 255, 0.66); }
+:root[data-theme="light"] .btn-primary { color: #fff; box-shadow: 0 12px 30px -12px rgba(90, 63, 214, 0.7); }
+:root[data-theme="light"] .btn-primary:hover { background: #4a30c4; }
+:root[data-theme="light"] .btn-ghost,
+:root[data-theme="light"] .menu-btn,
+:root[data-theme="light"] .theme-btn,
+:root[data-theme="light"] .socials a { background: rgba(255, 255, 255, 0.55); }
+:root[data-theme="light"] .code-card {
+  background: rgba(255, 255, 255, 0.86); border-color: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 40px 80px -36px var(--sky-shadow), 0 2px 0 rgba(255, 255, 255, 0.8) inset;
+}
+:root[data-theme="light"] .code-bar i { background: #d6e0ee; }
+:root[data-theme="light"] .code-bar i:nth-child(3) { background: #2fc28a; }
+:root[data-theme="light"] .kw { color: #7a3fe0; }
+:root[data-theme="light"] .fn { color: #1f5fd6; }
+:root[data-theme="light"] .str { color: #13804a; }
+:root[data-theme="light"] .cm { color: #6b7d99; }
+:root[data-theme="light"] .badge-float { background: rgba(255, 255, 255, 0.92); border-color: rgba(255, 255, 255, 0.9); box-shadow: 0 20px 40px -18px var(--sky-shadow); }
+:root[data-theme="light"] .marquee-track span::after { color: var(--sun); }
+:root[data-theme="light"] .card {
+  background: linear-gradient(155deg, #ffffff, #f0f7ff 70%);
+  box-shadow: 0 -18px 50px -32px var(--sky-shadow), 0 24px 50px -36px var(--sky-shadow);
+}
+:root[data-theme="light"] .card-num { -webkit-text-stroke-color: rgba(90, 63, 214, 0.4); }
+:root[data-theme="light"] .card-tag { background: rgba(90, 63, 214, 0.1); }
+:root[data-theme="light"] .card-link:hover { color: #3b24a8; }
+:root[data-theme="light"] .poster img,
+:root[data-theme="light"] .card-media img { box-shadow: 0 34px 70px -38px rgba(30, 72, 140, 0.55), 0 0 0 6px rgba(255, 255, 255, 0.7); }
+:root[data-theme="light"] .lightbox { background: rgba(232, 243, 255, 0.9); }
+:root[data-theme="light"] .lightbox img { box-shadow: 0 40px 100px -30px rgba(30, 72, 140, 0.5); }
+:root[data-theme="light"] .stat,
+:root[data-theme="light"] .tl-item,
+:root[data-theme="light"] .tech,
+:root[data-theme="light"] .contact-line,
+:root[data-theme="light"] form,
+:root[data-theme="light"] .tabs { box-shadow: 0 14px 34px -28px var(--sky-shadow); }
+:root[data-theme="light"] .copy { background: rgba(90, 63, 214, 0.1); }
+:root[data-theme="light"] .footer { background: linear-gradient(180deg, var(--night) 0%, #e3f1ff 100%); }
+:root[data-theme="light"] .footer-ghost { -webkit-text-stroke-color: rgba(31, 95, 214, 0.1); }
+:root[data-theme="light"] .mobile-menu { background: radial-gradient(ellipse 70% 45% at 85% 0%, rgba(255, 214, 102, 0.45), transparent 70%), linear-gradient(180deg, #e6f3ff, var(--night) 60%); }
+:root[data-theme="light"] .cursor-ring { border-color: rgba(90, 63, 214, 0.6); }
+:root[data-theme="light"] .cursor-ring.is-hover { background: rgba(90, 63, 214, 0.1); }
+
+/* The tech orbit circles the sun */
+:root[data-theme="light"] .ring { border-color: rgba(22, 46, 84, 0.2); }
+:root[data-theme="light"] .ring-inner { border-color: rgba(255, 170, 18, 0.45); }
+:root[data-theme="light"] .chip { background: rgba(255, 255, 255, 0.95); border-color: rgba(22, 46, 84, 0.1); box-shadow: 0 10px 22px -14px var(--sky-shadow); }
+:root[data-theme="light"] .orbit-core,
+:root[data-theme="light"] .lost-planet {
+  background: radial-gradient(circle at 38% 36%, #fffdf0 0%, #ffe48a 38%, #ffc23a 78%, #ffaa12 100%);
+  box-shadow: 0 0 0 10px rgba(255, 210, 90, 0.22), 0 0 70px rgba(255, 190, 40, 0.6);
+  animation-name: sun-pulse;
+}
+:root[data-theme="light"] .orbit-core span { color: #6b3d00; }
+:root[data-theme="light"] .spark { background: var(--sun); box-shadow: 0 0 12px var(--sun); }
+:root[data-theme="light"] .spark.s2 { background: #6db7f0; box-shadow: 0 0 12px #6db7f0; }
+:root[data-theme="light"] .lost-ring { border-color: rgba(22, 46, 84, 0.3); }
+:root[data-theme="light"] .lost-ring.two { border-color: rgba(255, 170, 18, 0.4); }
+:root[data-theme="light"] .lost-moon { background: #6db7f0; box-shadow: 0 0 14px #6db7f0; }
+@keyframes sun-pulse { 50% { box-shadow: 0 0 0 18px rgba(255, 210, 90, 0.12), 0 0 90px rgba(255, 190, 40, 0.75); } }
+
+@media (max-width: 860px) {
+  .sun { top: -1.4rem; right: -1.4rem; width: 6.5rem; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .loader { display: none; }

@@ -10,8 +10,8 @@ My personal portfolio website, built with Django.
 | Path | What it holds |
 |---|---|
 | `pages/content.py` | All the text on the site, plus the course and certificate links |
-| `templates/` | Page layout (`base.html`, `home.html`, `404.html`) |
-| `static/css/site.css` | Design: colours, type, layout and animation |
+| `templates/` | Page layout (`base.html`, `home.html`, `404.html`, and `_sky.html` for the light mode sky) |
+| `static/css/site.css` | Design: colours, type, layout and animation, for dark mode and the sunny light mode |
 | `static/js/site.js` | Loader, starfield, typing roles, counters, poster lightbox, tabs, copy email, contact form |
 | `static/img/` | Project posters and the favicon |
 | `static/files/` | Save `Ghadah_Alabbadi_CV.pdf` here to show the Download CV button |
