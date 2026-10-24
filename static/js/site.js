@@ -21,10 +21,13 @@
   } catch (e) {
     /* Storage can be blocked; show the loader. */
   }
+  var loaderDone = function () { document.dispatchEvent(new Event("loaderdone")); };
+  var loaderActive = false;
   if (loader) {
     if (reduce || seen) {
       loader.remove();
     } else {
+      loaderActive = true;
       var n = 0;
       var t = setInterval(function () {
         n = Math.min(100, n + Math.ceil(Math.random() * 12));
@@ -33,6 +36,7 @@
           clearInterval(t);
           setTimeout(function () {
             loader.classList.add("is-done");
+            setTimeout(loaderDone, 350);
             setTimeout(function () { loader.remove(); }, 900);
           }, 150);
         }
@@ -84,7 +88,7 @@
     });
   }
 
-  // Light / dark switch. The choice is remembered; without one, the page follows the device setting.
+  // Light / dark switch. Dark by default; a visitor's choice is remembered.
   var root = document.documentElement;
   var themeBtn = document.getElementById("themeBtn");
   var themeMeta = document.getElementById("themeColor");
@@ -112,16 +116,6 @@
       }).catch(function () { /* The switch already happened. */ });
     });
   }
-  if (window.matchMedia) {
-    var mq = window.matchMedia("(prefers-color-scheme: light)");
-    var follow = function (e) {
-      var saved = null;
-      try { saved = localStorage.getItem("theme"); } catch (err) { /* ignore */ }
-      if (saved !== "light" && saved !== "dark") setTheme(e.matches ? "light" : "dark", false);
-    };
-    if (mq.addEventListener) mq.addEventListener("change", follow);
-  }
-
   // Custom cursor, only once a mouse moves.
   var dot = document.getElementById("cursor");
   var ring = document.getElementById("cursorRing");
@@ -195,21 +189,26 @@
     document.querySelectorAll(".card img").forEach(function (img) { img.addEventListener("load", setStick); });
   }
 
-  // Typing roles.
+  // Typing roles: types the first role once the loader has gone, then cycles in order.
   var roles = data.roles || [];
   var typed = document.getElementById("typed");
   if (typed && roles.length > 1 && !reduce) {
-    var ri = 0, ci = roles[0].length, del = true;
-    setInterval(function () {
-      if (del) {
-        ci--;
-        if (ci <= 0) { del = false; ri = (ri + 1) % roles.length; }
-      } else {
-        ci++;
-        if (ci >= roles[ri].length + 14) del = true;
-      }
-      typed.textContent = roles[ri].slice(0, Math.max(0, Math.min(ci, roles[ri].length)));
-    }, 70);
+    var ri = 0, ci = 0, del = false;
+    var startTyping = function () {
+      typed.textContent = "";
+      setInterval(function () {
+        if (del) {
+          ci--;
+          if (ci <= 0) { del = false; ri = (ri + 1) % roles.length; }
+        } else {
+          ci++;
+          if (ci >= roles[ri].length + 22) del = true;
+        }
+        typed.textContent = roles[ri].slice(0, Math.max(0, Math.min(ci, roles[ri].length)));
+      }, 70);
+    };
+    if (loaderActive) { typed.textContent = ""; document.addEventListener("loaderdone", startTyping, { once: true }); }
+    else startTyping();
   }
 
   // Statement: words light up as the reader scrolls.

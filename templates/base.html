@@ -7,13 +7,11 @@
   <meta name="description" content="{{ c.meta_description }}">
   <meta name="theme-color" content="#0a0913" id="themeColor">
   <script>
-    /* Pick the theme before the page paints: the visitor's saved choice, otherwise their device setting. */
+    /* Pick the theme before the page paints: dark by default, light only if the visitor chose it. */
     (function () {
       var t = null;
       try { t = localStorage.getItem("theme"); } catch (e) {}
-      if (t !== "light" && t !== "dark") {
-        t = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches ? "light" : "dark";
-      }
+      if (t !== "light") t = "dark";
       document.documentElement.setAttribute("data-theme", t);
       document.getElementById("themeColor").setAttribute("content", t === "light" ? "#eaf5ff" : "#0a0913");
     })();
