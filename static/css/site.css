@@ -540,8 +540,9 @@ body.menu-open { overflow: hidden; }
   background: rgba(255, 255, 255, 0.86); border-color: rgba(255, 255, 255, 0.9);
   box-shadow: 0 40px 80px -36px var(--sky-shadow), 0 2px 0 rgba(255, 255, 255, 0.8) inset;
 }
-:root[data-theme="light"] .code-bar i { background: #d6e0ee; }
-:root[data-theme="light"] .code-bar i:nth-child(3) { background: #2fc28a; }
+:root[data-theme="light"] .code-bar i:first-child { background: #ff5f57; }
+:root[data-theme="light"] .code-bar i:nth-child(2) { background: #febc2e; }
+:root[data-theme="light"] .code-bar i:nth-child(3) { background: #28c840; }
 :root[data-theme="light"] .kw { color: #c2410c; }
 :root[data-theme="light"] .fn { color: #1f5fd6; }
 :root[data-theme="light"] .str { color: #13804a; }
