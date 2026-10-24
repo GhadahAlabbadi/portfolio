@@ -60,7 +60,7 @@ CONTENT = {
         "eyebrow": "Software developer, Riyadh",
         "first": "Ghadah",
         "last": "Alabbadi",
-        "roles": ["Python and Django developer", "Flutter developer"],
+        "roles": ["Python and Django developer", "Java developer", "Flutter developer"],
         "intro": (
             "Computer Science graduate (First Class Honours) building bilingual web and "
             "mobile products with Django and Flutter, with a strong interest in FinTech."
