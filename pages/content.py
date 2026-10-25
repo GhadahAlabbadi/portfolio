@@ -11,7 +11,7 @@ PROFILE = {
     "emaa_demo": "https://emaa-expo.onrender.com",
     # Web3Forms access key: messages from the contact form go straight to the email above.
     # Leave it empty to fall back to opening the visitor's email app.
-    "web3forms_key": "",
+    "web3forms_key": "3f952395-f86b-4c61-99d0-53ed43e2dbf4",
 }
 
 CERT_LINKS = {
