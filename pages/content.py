@@ -9,6 +9,9 @@ PROFILE = {
     "linkedin": "https://www.linkedin.com/in/ghadah-alabbadi",
     "linkedin_handle": "ghadah-alabbadi",
     "emaa_demo": "https://emaa-expo.onrender.com",
+    # Web3Forms access key: messages from the contact form go straight to the email above.
+    # Leave it empty to fall back to opening the visitor's email app.
+    "web3forms_key": "",
 }
 
 CERT_LINKS = {
@@ -203,6 +206,9 @@ CONTENT = {
         "msg_ph": "Hi Ghadah, we have a role that fits you...",
         "send": "Send message",
         "note": "Your email app will open with the message ready to send.",
+        "sending": "Sending...",
+        "sent": "Thanks, your message was sent. I'll get back to you soon.",
+        "error": "Your message couldn't be sent. Please try again, or email me directly.",
         "subject": "Message from your portfolio",
     },
     "footer": {

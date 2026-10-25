@@ -28,6 +28,11 @@ def _base_context():
             "copy": c["contact"]["copy"],
             "copied": c["contact"]["copied"],
             "selected": c["contact"]["selected"],
+            "form_key": PROFILE.get("web3forms_key", ""),
+            "send": c["contact"]["send"],
+            "sending": c["contact"]["sending"],
+            "sent": c["contact"]["sent"],
+            "error": c["contact"]["error"],
         },
     }
 

@@ -313,6 +313,10 @@ input, textarea { width: 100%; padding: 0.85rem 1rem; border-radius: 0.8rem; bor
 input:focus, textarea:focus { outline: none; border-color: var(--violet); }
 textarea { min-height: 8rem; resize: vertical; }
 .form-note { font-size: 0.85rem; color: var(--mint); }
+.form-note.is-error { color: #ff8fa3; }
+:root[data-theme="light"] .form-note.is-error { color: #c0322b; }
+.botcheck { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+form button[disabled] { opacity: 0.7; cursor: progress; transform: none; }
 @media (max-width: 860px) { .contact-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* Footer */

@@ -335,20 +335,53 @@
     });
   }
 
-  // Contact form: opens the visitor's email app with the message filled in.
+  // Contact form: sends the message straight to Ghadah's email through Web3Forms.
+  // Without an access key it falls back to opening the visitor's email app.
   var form = document.getElementById("contactForm");
   if (form) {
+    var note = document.getElementById("formNote");
+    var sendBtn = document.getElementById("sendBtn");
+    var showNote = function (text, isError) {
+      note.textContent = text;
+      note.classList.toggle("is-error", !!isError);
+      note.hidden = false;
+    };
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       if (!form.reportValidity()) return;
       var name = form.elements.name.value.trim();
       var from = form.elements.email.value.trim();
       var msg = form.elements.message.value.trim();
-      var body = msg + "\n\n" + name + "\n" + from;
-      window.location.href = "mailto:" + data.email +
-        "?subject=" + encodeURIComponent(data.subject + ": " + name) +
-        "&body=" + encodeURIComponent(body);
-      document.getElementById("formNote").hidden = false;
+      if (!data.form_key) {
+        window.location.href = "mailto:" + data.email +
+          "?subject=" + encodeURIComponent(data.subject + ": " + name) +
+          "&body=" + encodeURIComponent(msg + "\n\n" + name + "\n" + from);
+        note.hidden = false;
+        return;
+      }
+      sendBtn.disabled = true;
+      sendBtn.textContent = data.sending || "Sending...";
+      note.hidden = true;
+      fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "application/json" },
+        body: JSON.stringify({
+          access_key: data.form_key,
+          subject: data.subject + ": " + name,
+          from_name: name,
+          name: name,
+          email: from,
+          message: msg,
+          botcheck: form.elements.botcheck.checked
+        })
+      })
+        .then(function (r) { return r.json().catch(function () { return {}; }).then(function (j) { return r.ok && j.success; }); })
+        .then(function (ok) {
+          if (ok) { form.reset(); showNote(data.sent, false); }
+          else { showNote(data.error, true); }
+        })
+        .catch(function () { showNote(data.error, true); })
+        .then(function () { sendBtn.disabled = false; sendBtn.textContent = data.send || "Send message"; });
     });
   }
 })();
